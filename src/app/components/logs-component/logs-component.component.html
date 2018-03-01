@@ -1,0 +1,17 @@
+<div class="card" *ngIf="logs?.length > 0">
+  <ul class="list-group list-group-flush">
+    <li *ngFor="let log of logs"
+      (click)="selectedLog(log)" 
+      class="list-group-item">
+      {{log.label}}
+    </li>
+  </ul>
+</div>
+
+<div class="card" *ngIf="logs == null">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      There are no logs in the system
+    </li>
+  </ul>
+</div>

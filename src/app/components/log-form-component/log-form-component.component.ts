@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { LoggerService } from '../../_services/logger.service';
+import { Subscription } from 'rxjs/Subscription';
+import { Log } from '../../_models/Log';
+
+@Component({
+  selector: 'app-log-form-component',
+  templateUrl: './log-form-component.component.html',
+  styleUrls: ['./log-form-component.component.css']
+})
+export class LogFormComponentComponent implements OnInit {
+  log: Log;
+  label: string;
+  private subscription : Subscription;
+  constructor(private logService: LoggerService) {  
+  }
+
+  ngOnInit() {
+    this.subscription = this.logService.logState$
+    .subscribe((data: Log) => {
+      this.label = data.label
+    });
+  }
+
+  submit() {
+    let log = new Log();
+    log.label = this.label;
+    log.date = new Date();
+    this.logService.addLog(log);
+    this.label = '';
+  }
+
+  uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+}

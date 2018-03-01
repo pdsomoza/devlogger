@@ -1,0 +1,10 @@
+<div class="card" >
+  <div class="card-body">
+    <form #logForm="ngForm" (ngSubmit)="submit()" >
+      <div class="form-group">     
+        <input required [(ngModel)]="label" type="text" name="label" class="form-control" placeholder="Add a log..">
+      </div>
+      <button type="submit" class="btn btn-light"  [disabled]="!logForm.form.valid">Add Log</button>
+    </form>
+  </div>
+</div>
