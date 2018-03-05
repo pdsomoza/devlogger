@@ -4,4 +4,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Es un proyecto crud basico, con comunicacion entre componentes hermanos y con persitencia en localstorage. 
 
+[Live Version](https://pdsomoza.github.io/devlogger/)
+
 
