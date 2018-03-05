@@ -1,14 +1,19 @@
 <div class="card" *ngIf="logs?.length > 0">
   <ul class="list-group list-group-flush">
-    <li *ngFor="let log of logs"
-      (click)="selectedLog(log)" 
-      class="list-group-item">
-      {{log.label}}
+    <li *ngFor="let log of logs"   
+      class="list-group-item d-flex justify-content-between"
+      [ngClass]="{selected: isActive(log)}">
+      <a class="text-info"
+         (click)="selectedLog(log)" >
+         {{log.label}}
+      </a>
+      <span class="text-secondary">{{log.date | date}}</span>
+      <a (click)="deleteLog(log)" class="text-danger"><i class="fa fa-times"></i></a>   
     </li>
   </ul>
 </div>
 
-<div class="card" *ngIf="logs == null">
+<div class="card" *ngIf="logs?.length == 0">
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       There are no logs in the system

@@ -8,33 +8,42 @@ import { of }    from 'rxjs/observable/of';
 @Injectable()
 export class LoggerService {
   logs:Log[];
-  private logsSubject = new Subject<Log[]>();
+  selected :any;
   private logSubject = new Subject<Log>();
   logState$ = this.logSubject.asObservable();
-  logsState$ = this.logsSubject.asObservable();
-  constructor() { }
-
-  addLog(log: Log) {    
-    if (localStorage.getItem("devlogger") === null){
-      this.logs = this.logs || [];
-      this.logs.push(log);
-      localStorage.setItem("devlogger",JSON.stringify(this.logs));
-    }      
-    else {
-       this.logs = JSON.parse(localStorage.getItem("devlogger"));
-       this.logs.push(log);
-       localStorage.setItem("devlogger",JSON.stringify(this.logs)); 
-    }
-    this.logsSubject.next(this.logs);
+  constructor() {
+    this.logs = JSON.parse(localStorage.getItem("devlogger")) || [];
   }
 
-  getLogs(): Observable<Log[]> {
-    let logs = JSON.parse(localStorage.getItem("devlogger"));    
-    return of(logs);
+  add(log: Log) {    
+    this.logs.unshift(log);
+    this.save();
+  }
+
+  edit(log: Log) {
+    this.logs.map((item,index) => {
+      if(item.id === log.id) this.logs.splice(index, 1);
+    })
+    this.logs.unshift(log);
+    this.save();
+  }
+
+  delete(log: Log) {    
+    this.logs.map((item,index) => {
+      if(item.id === log.id) this.logs.splice(index, 1);
+    })
+    this.save();
+  }
+
+  save() {
+    localStorage.setItem("devlogger",JSON.stringify(this.logs));
+  }
+  
+  getLogs(): Observable<Log[]> { 
+    return of(this.logs);
   }
 
   getLog(log: Log) {
     this.logSubject.next(log);
   }
-
 }

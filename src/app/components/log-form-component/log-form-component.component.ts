@@ -11,6 +11,7 @@ import { Log } from '../../_models/Log';
 export class LogFormComponentComponent implements OnInit {
   log: Log;
   label: string;
+  isNew = true;
   private subscription : Subscription;
   constructor(private logService: LoggerService) {  
   }
@@ -18,16 +19,39 @@ export class LogFormComponentComponent implements OnInit {
   ngOnInit() {
     this.subscription = this.logService.logState$
     .subscribe((data: Log) => {
-      this.label = data.label
+      this.log = data;
+      this.label = this.log.label;
+      this.isNew = false;
     });
   }
 
   submit() {
+    if(this.isNew)
+      this.addLog();
+    else
+      this.editLog();  
+
+    this.clearLabel();
+  }
+
+  editLog() {
+    this.log.date = new Date();
+    this.log.label = this.label;
+    this.logService.edit(this.log);
+  }
+
+  addLog(){
     let log = new Log();
     log.label = this.label;
     log.date = new Date();
-    this.logService.addLog(log);
+    log.id = this.uuid();
+    this.logService.add(log);
+  }
+
+  clearLabel() {
+    this.isNew = true;
     this.label = '';
+    this.logService.selected = '';
   }
 
   uuid() {

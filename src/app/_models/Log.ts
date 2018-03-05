@@ -1,8 +1,5 @@
 export class Log {
+  id: string;
   label: string;
-  date: Date = new Date();
-
-  constructor(values: Object = {}) {
-    Object.assign(this, values);
-  }
+  date: Date;
 }

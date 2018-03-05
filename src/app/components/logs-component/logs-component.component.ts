@@ -17,15 +17,21 @@ export class LogsComponentComponent implements OnInit {
   ngOnInit() {
     this.logService.getLogs().subscribe(logs => {
       this.logs = logs;
-    });
-
-    this.subscription = this.logService.logsState$
-      .subscribe((data: Log[]) => {
-          this.logs = data;
-      });   
+    });  
   }
 
   selectedLog(log: Log) {
     this.logService.getLog(log);
+    this.logService.selected = log;
+  }
+
+  isActive(log) {
+    return this.logService.selected === log;
+  }
+
+  deleteLog(log: Log){
+    if(confirm('Are you Sure?')) {
+      this.logService.delete(log);
+    }
   }
 }

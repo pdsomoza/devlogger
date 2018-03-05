@@ -1,0 +1,7 @@
+.list-group-item a {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #f8f9fa!important;
+}

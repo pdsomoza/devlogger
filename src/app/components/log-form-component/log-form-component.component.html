@@ -4,7 +4,12 @@
       <div class="form-group">     
         <input required [(ngModel)]="label" type="text" name="label" class="form-control" placeholder="Add a log..">
       </div>
-      <button type="submit" class="btn btn-light"  [disabled]="!logForm.form.valid">Add Log</button>
+      <button type="submit" 
+        class="btn btn-light"  
+        [disabled]="!logForm.form.valid">
+          {{isNew ? 'Add Log' : 'Edit Log'}}
+      </button>
+      <button type="button" class="btn btn-warning" [hidden]="!label" (click)="clearLabel()" >Clear</button>
     </form>
   </div>
 </div>
